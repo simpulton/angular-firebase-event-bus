@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <title>Firebase Event Bus</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/app.css" rel="stylesheet"/>
+  </head>
+  <body class="container">
+    <div class="row">
+      <div ng-controller="RealtimeCtrl as realtime">
+        <h1>Realtime</h1>
+        <hr/>
+        <div class="well">
+          <h4>Updated Order</h4>
+          <table class="table edit">
+            <thead>
+            <tr>
+              <th>Title</th>
+              <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{realtime.currentOrder.title}}</td>
+              <td>{{realtime.currentOrder.description}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <hr/>
+        <table class="table edit">
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Updated At</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="order in realtime.orders" order order-id="{{order.$id}}">
+            <td>{{orderCtrl.order.$id}}</td>
+            <td>{{orderCtrl.order.updated_at}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.1.1/angularfire.min.js"></script>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>
