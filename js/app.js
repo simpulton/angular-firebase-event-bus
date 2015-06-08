@@ -130,10 +130,7 @@ app.factory('RealtimeService', function ($firebaseArray, FIREBASE_URI) {
     var orderIndex = orders.$indexFor(id);
     order = orders[orderIndex];
     order.updated_at = new Date();
-
-
-
-    // orders.$save(order);
+    orders.$save(order);
   };
 
   var destroy = function (id) {
