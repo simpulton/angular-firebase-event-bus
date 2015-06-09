@@ -77,11 +77,12 @@ app.directive('order',
 
       orderCtrl.order = $firebaseObject(ref);
 
-      orderCtrl.order.$watch(function () {
-        console.log('HELLO! HELLO!', orderCtrl.orderId);
-        
-        orderCtrl.getOrder(orderCtrl.orderId);
-      });
+      orderCtrl.order.$loaded()
+        .then(function () {
+          orderCtrl.order.$watch(function () {
+            orderCtrl.getOrder(orderCtrl.orderId);
+          });
+        });
 
       orderCtrl.getOrder = function (id) {
         RESTService.fetch(id)
@@ -120,7 +121,8 @@ app.factory('CurrentOrderService', function ($rootScope) {
 });
 
 app.factory('RealtimeService', function ($firebaseArray, FIREBASE_URI) {
-  var orders = $firebaseArray(new Firebase(FIREBASE_URI + 'realtime-orders'));
+  var ref = new Firebase(FIREBASE_URI + 'realtime-orders');
+  var orders = $firebaseArray(ref);
 
   var all = function () {
     return orders
@@ -130,7 +132,17 @@ app.factory('RealtimeService', function ($firebaseArray, FIREBASE_URI) {
     var orderIndex = orders.$indexFor(id);
     var order = orders[orderIndex];
     order.updated_at = new Date();
-    orders.$save(order);
+
+    // EITHER WAY WILL DELETE THE RECORD ~LR
+    // var order = orders.$getRecord(id);
+    // orders.$save(order)
+    orders.$save(orderIndex)
+      .then(function(ref){
+        console.log('ref', ref);
+      })
+      .catch(function(reason){
+        console.log('reason', reason);
+      });
   };
 
   var destroy = function (id) {
