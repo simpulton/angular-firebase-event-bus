@@ -128,7 +128,7 @@ app.factory('RealtimeService', function ($firebaseArray, FIREBASE_URI) {
 
   var save = function (id) {
     var orderIndex = orders.$indexFor(id);
-    order = orders[orderIndex];
+    var order = orders[orderIndex];
     order.updated_at = new Date();
     orders.$save(order);
   };
