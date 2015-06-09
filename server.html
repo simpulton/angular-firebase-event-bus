@@ -14,14 +14,14 @@
         <div class="well">
           <h4>Add Order</h4>
 
-          <form class="form-inline" role="form" novalidate ng-submit="createOrder(server.newOrder.title, server.newOrder.description)">
+          <form class="form-inline" role="form" novalidate ng-submit="server.createOrder(server.newOrder.title, server.newOrder.description)">
             <div class="form-group">
               <input type="text" class="form-control" ng-model="server.newOrder.title" placeholder="Enter title">
             </div>
             <div class="form-group">
               <input type="text" class="form-control" ng-model="server.newOrder.description" placeholder="Enter description">
             </div>
-            <button type="submit" clasfs="btn btn-default">Add</button>
+            <button type="submit" class="btn btn-default">Add</button>
           </form>
         </div>
         <hr/>

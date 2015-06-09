@@ -29,7 +29,7 @@ app.controller('ServerCtrl', function ($scope, RESTService, RealtimeService) {
       .then(function (result) {
         server.getOrders();
         server.resetForm();
-        RealtimeService.save(result.name)
+        RealtimeService.create(result.data.name)
       });
   };
 
@@ -120,7 +120,7 @@ app.factory('CurrentOrderService', function ($rootScope) {
   };
 });
 
-app.factory('RealtimeService', function ($firebaseArray, FIREBASE_URI) {
+app.factory('RealtimeService', function ($firebaseArray, $firebaseObject, FIREBASE_URI) {
   var ref = new Firebase(FIREBASE_URI + 'realtime-orders');
   var orders = $firebaseArray(ref);
 
@@ -128,30 +128,27 @@ app.factory('RealtimeService', function ($firebaseArray, FIREBASE_URI) {
     return orders
   };
 
-  var save = function (id) {
-    var orderIndex = orders.$indexFor(id);
-    var order = orders[orderIndex];
-    order.updated_at = new Date();
+  var create = function(id) {
+    var ref = new Firebase(FIREBASE_URI + 'realtime-orders/' + id);
+    var order = $firebaseObject(ref);
+    order.updated_at = new Date().toString();
+    order.$save();
+  };
 
-    // EITHER WAY WILL DELETE THE RECORD ~LR
-    // var order = orders.$getRecord(id);
-    // orders.$save(order)
-    orders.$save(orderIndex)
-      .then(function(ref){
-        console.log('ref', ref);
-      })
-      .catch(function(reason){
-        console.log('reason', reason);
-      });
+  var save = function (id) {
+    var order = orders.$getRecord(id);
+    order.updated_at = new Date().toString();
+    orders.$save(order);
   };
 
   var destroy = function (id) {
-    var child = orders.$child(id);
-    child.$remove();
+    var order = orders.$getRecord(id);
+    orders.$remove(order);
   };
 
   return {
     all: all,
+    create: create,
     save: save,
     destroy: destroy
   };
