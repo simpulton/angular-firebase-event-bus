@@ -12,13 +12,6 @@ app.controller('RealtimeCtrl', function ($scope, RESTService, RealtimeService, C
   $scope.$on('currentOrderUpdated', function () {
     realtime.currentOrder = CurrentOrderService.getCurrentOrder();
   });
-
-  realtime.getOrder = function () {
-    RESTService.all()
-      .then(function (result) {
-        realtime.orders = result !== 'null' ? result : {};
-      });
-  };
 });
 
 app.directive('order',
@@ -80,7 +73,7 @@ app.factory('RealtimeService', function ($firebaseArray, $firebaseObject, FIREBA
     return orders
   };
 
-  var create = function(id) {
+  var create = function (id) {
     var ref = new Firebase(FIREBASE_URI + 'realtime-orders/' + id);
     var order = $firebaseObject(ref);
     order.updated_at = new Date().toString();
