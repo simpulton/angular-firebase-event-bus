@@ -38,8 +38,8 @@
           </thead>
           <tbody>
           <tr ng-repeat="order in realtime.orders" order order-id="{{order.$id}}">
-            <td>{{orderCtrl.order.$id}}</td>
-            <td>{{orderCtrl.order.updated_at}}</td>
+            <td>{{order.$id}}</td>
+            <td>{{order.updated_at}}</td>
           </tr>
           </tbody>
         </table>
