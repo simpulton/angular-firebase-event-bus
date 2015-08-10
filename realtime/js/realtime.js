@@ -1,7 +1,7 @@
 var app = angular.module('realtimeApp', ['firebase']);
 
-app.constant('RESTFUL_URI', 'https://realtime-event-bus.firebaseio.com/');
-app.constant('FIREBASE_URI', 'https://realtime-event-bus.firebaseio.com/');
+app.constant('RESTFUL_URI', 'INSERT_REST_ENDPOINT_HERE');
+app.constant('FIREBASE_URI', 'INSERT_FIREBASE_ENDPOINT_HERE');
 
 app.controller('RealtimeCtrl', function ($scope, RealtimeService, CurrentOrderService) {
   var realtime = this;
